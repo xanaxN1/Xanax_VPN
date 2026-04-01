@@ -192,12 +192,16 @@
                     step++;
                 } else {
                     clearInterval(interval);
-                    // ЗАКРЫВАЕМ ПРИЛОЖЕНИЕ В ТЕЛЕГРАМ
+                    
+                    // ДОБАВЛЕННОЕ ИЗМЕНЕНИЕ: Всплывающее окно Telegram
                     if (window.Telegram && window.Telegram.WebApp) {
-                        tg.close();
+                        tg.showAlert("Ваш запрос принят! Мы ждем вас в боте.", () => {
+                            tg.close(); // Закроет только после нажатия "ОК"
+                        });
+                    } else {
+                        alert("Готово! Возвращайтесь в бота.");
+                        window.location.href = 'https://t.me/XanaxVPN_robot';
                     }
-                    // Если вдруг не закрылось, перекидываем в бота
-                    window.location.href = 'https://t.me/XanaxVPN_robot';
                 }
             }, 600);
         }
