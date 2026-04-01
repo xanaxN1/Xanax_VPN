@@ -4,189 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>XanaxVPN Pro</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #0a0d14;
-            --card-bg: rgba(25, 31, 45, 0.6);
-            --accent-blue: #007aff;
-            --accent-green: #4ade80;
-            --accent-gold: #f59e0b;
-            --text-main: #ffffff;
-            --text-dim: #94a3b8;
-        }
-
-        body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0; padding: 20px;
-            overflow-x: hidden;
-            -webkit-user-select: none;
-        }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-
-        .trial-block {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid var(--accent-gold);
-            border-radius: 18px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            animation: pulse-gold 2s infinite;
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            border-radius: 18px;
-            padding: 18px;
-            display: flex; align-items: center;
-            text-decoration: none; color: white;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .tariffs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .tariff-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 15px;
-            position: relative;
-            transition: 0.2s;
-        }
-
-        .tariff-card.active { 
-            border-color: var(--accent-green); 
-            background: rgba(74, 222, 128, 0.05); 
-        }
-
-        .badge {
-            position: absolute; top: -8px; right: 10px;
-            background: var(--accent-green); color: black;
-            font-size: 9px; font-weight: bold;
-            padding: 2px 6px; border-radius: 10px;
-        }
-
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 13, 20, 0.95);
-            backdrop-filter: blur(10px);
-            display: none; flex-direction: column;
-            align-items: center; justify-content: center;
-            z-index: 1000;
-        }
-
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top: 3px solid var(--accent-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .live-status {
-            text-align: center; font-size: 11px; color: var(--text-dim);
-            margin-top: 20px; height: 15px;
-        }
-    </style>
-</head>
-<body>
-
-    <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="margin: 0;">XanaxVPN</h2>
-        <div style="color: var(--accent-green); font-size: 13px; margin-top: 5px;">
-            ● Серверы онлайн
-        </div>
-    </div>
-
-    <div class="trial-block" onclick="startProcessing('trial')">
-        <div>
-            <div style="font-weight: bold; color: var(--accent-gold);">🎁 Подарок новичкам</div>
-            <div style="font-size: 12px; color: var(--text-dim);">3 дня теста бесплатно</div>
-        </div>
-        <div style="background: var(--accent-gold); color: black; padding: 5px 12px; border-radius: 10px; font-weight: bold; font-size: 12px;">Взять</div>
-    </div>
-
-    <div class="btn-primary" onclick="startProcessing('access')">
-        <div style="font-size: 24px; margin-right: 15px;">🚀</div>
-        <div>
-            <div style="font-size: 17px;">Подключить VPN</div>
-            <div style="font-size: 12px; opacity: 0.8; font-weight: normal;">Максимальная защита</div>
-        </div>
-    </div>
-
-    <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; margin: 10px 0 15px 5px;">Выберите тариф</div>
-    
-    <div class="tariffs-grid">
-        <div class="tariff-card" onclick="selectTariff(this)">
-            <div style="color: var(--text-dim); font-size: 11px;">1 месяц</div>
-            <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">99 ₽</div>
-        </div>
-        <div class="tariff-card active" onclick="selectTariff(this)">
-            <div class="badge">ХИТ</div>
-            <div style="color: var(--text-dim); font-size: 11px;">3 месяца</div>
-            <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">248 ₽</div>
-        </div>
-        <div class="tariff-card" onclick="selectTariff(this)">
-            <div style="color: var(--text-dim); font-size: 11px;">6 месяцев</div>
-            <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">439 ₽</div>
-        </div>
-        <div class="tariff-card" onclick="selectTariff(this)">
-            <div class="badge">ВЫГОДНО</div>
-            <div style="color: var(--text-dim); font-size: 11px;">1 год</div>
-            <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">799 ₽</div>
-        </div>
-    </div>
-
-    <div class="live-status" id="live-status">Проверка узлов связи...</div>
-
-    <div id="loader">
-        <div class="spinner"></div>
-        <div id="loader-text" style="text-align: center; padding: 0 20px;">Загрузка...</div>
-    </div>
-
     <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+    // Инициализация
+    const tg = window.Telegram.WebApp;
+    
+    // Функция, которая сработает ПРИ ЛЮБОМ клике
+    function startProcessing(type) {
+        console.log("Клик зафиксирован: " + type);
+        
+        // Визуальный эффект загрузки
+        const loader = document.getElementById('loader');
+        if(loader) loader.style.display = 'flex';
 
-        function selectTariff(el) {
-            tg.HapticFeedback.impactOccurred('medium');
-            document.querySelectorAll('.tariff-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            startProcessing('tariff');
-        }
+        // Вибрация для Telegram
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
 
-        function startProcessing(type) {
-            tg.HapticFeedback.impactOccurred('heavy');
-            const loader = document.getElementById('loader');
-            const loaderText = document.getElementById('loader-text');
-            loader.style.display = 'flex';
+        // Переход в бота через 1 секунду
+        setTimeout(() => {
+            window.location.href = 'https://t.me/XanaxVPN_robot';
+        }, 1000);
+    }
 
-            const steps = [
-                "Проверка безопасности...",
-                "Шифрование канала...",
-                "Подготовка ссылки...",
-                "Почти готово!"
-            ];
+    function selectTariff(el) {
+        // Подсветка карточки
+        document.querySelectorAll('.tariff-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        
+        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        
+        startProcessing('tariff');
+    }
 
-            let step = 0;
-            const interval = setInterval(() => {
-                step++;
-                if (step < steps.length) {
-                    loaderText.innerText = steps[step];
-                }
+    // Сообщаем Telegram, что мы готовы
+    tg.ready();
+    tg.expand();
+</script>
