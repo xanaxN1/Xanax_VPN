@@ -192,6 +192,11 @@
                     step++;
                 } else {
                     clearInterval(interval);
+                    // ЗАКРЫВАЕМ ПРИЛОЖЕНИЕ В ТЕЛЕГРАМ
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        tg.close();
+                    }
+                    // Если вдруг не закрылось, перекидываем в бота
                     window.location.href = 'https://t.me/XanaxVPN_robot';
                 }
             }, 600);
