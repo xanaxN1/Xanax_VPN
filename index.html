@@ -193,13 +193,14 @@
                 } else {
                     clearInterval(interval);
                     
-                    // ДОБАВЛЕННОЕ ИЗМЕНЕНИЕ: Всплывающее окно Telegram
+                    // ТО САМОЕ ОКНО:
                     if (window.Telegram && window.Telegram.WebApp) {
-                        tg.showAlert("Ваш запрос принят! Мы ждем вас в боте.", () => {
-                            tg.close(); // Закроет только после нажатия "ОК"
+                        tg.showConfirm("Переходим к оплате?\nСейчас откроется меню выбора тарифов.", (confirmed) => {
+                            // Приложение закроется только если нажать кнопку в окне
+                            tg.close();
                         });
                     } else {
-                        alert("Готово! Возвращайтесь в бота.");
+                        alert("Переходим к оплате!");
                         window.location.href = 'https://t.me/XanaxVPN_robot';
                     }
                 }
